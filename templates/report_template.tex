@@ -1,0 +1,68 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{titlesec}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    pdftitle={\VAR{doc_title}},
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\VAR{doc_title}}
+\lhead{\VAR{author_name}}
+\rfoot{Page \thepage}
+
+\title{\textbf{\Huge \VAR{doc_title}}}
+\author{\VAR{author_name} \\ \textit{\VAR{organization}}}
+\date{\VAR{report_date}}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+
+\begin{abstract}
+\VAR{abstract}
+\end{abstract}
+
+\vspace{1cm}
+\tableofcontents
+\newpage
+
+\BLOCK{ for section in sections }
+\section{\VAR{section.title}}
+\VAR{section.content}
+
+\BLOCK{ if section.table }
+\begin{table}[h!]
+\centering
+\begin{tabular}{\VAR{section.table.alignment}}
+\toprule
+\BLOCK{ for header in section.table.headers }
+\textbf{\VAR{header}} \BLOCK{ if not loop.last } & \BLOCK{ endif }
+\BLOCK{ endfor } \\
+\midrule
+\BLOCK{ for row in section.table.rows }
+\BLOCK{ for cell in row }
+\VAR{cell} \BLOCK{ if not loop.last } & \BLOCK{ endif }
+\BLOCK{ endfor } \\
+\BLOCK{ endfor }
+\bottomrule
+\end{tabular}
+\caption{\VAR{section.table.caption}}
+\end{table}
+\BLOCK{ endif }
+
+\BLOCK{ endfor }
+
+\end{document}
